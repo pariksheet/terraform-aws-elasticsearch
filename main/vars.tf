@@ -1,0 +1,9 @@
+variable "AWS_REGION" { description = "aws region" }
+variable "PREFIX" { description = "Typically project name" }
+variable "ENV" { description = "Environment Name" }
+variable "SUBNET" { description = "VPC CIDR : 10.{var.SUBNET}.0.0/22"}
+variable "INSTANCE_KEY_PATH" { description = "path of instance pem file" }
+variable "NGINX_INSTANCE" { description = "instance size of nginx"}
+variable "ES_INSTANCE" { description = "instance size of elasticsearch"}
+variable "ES_VOLUME_GB" { description = "instance volume(gb) of elasticsearch"}
+variable "ES_ENCRYPTION" { description = "true/false"}

@@ -1,0 +1,9 @@
+AWS_REGION="eu-west-1"
+PREFIX="BLOG"
+ENV="DEV"
+SUBNET=33
+INSTANCE_KEY_PATH="./keypair/nginx-instance"
+NGINX_INSTANCE="t2.micro"
+ES_INSTANCE="t2.medium.elasticsearch"
+ES_VOLUME_GB=30
+ES_ENCRYPTION=false
