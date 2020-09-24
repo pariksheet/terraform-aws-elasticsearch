@@ -60,19 +60,6 @@ data "aws_iam_policy_document" "es_access_policy" {
   }
 }
 
-//   access_policies = <<CONFIG
-// {
-// "Version": "2012-10-17",
-// "Statement": [{
-//     "Effect": "Allow",
-//     "Principal": {
-//         "AWS": "${lookup(var.COGNITO_MAP, "auth_arn")}"
-//     },
-//     "Action": "es:*",
-//     "Resource": "arn:aws:es:${var.AWS_REGION}:${data.aws_caller_identity.current.account_id}:domain/${lower(var.PREFIX)}-${lower(var.ENV)}-elastic-search/*"
-// }]
-// }
-// CONFIG
 resource "aws_iam_service_linked_role" "es" {
   aws_service_name = "es.amazonaws.com"
 }
@@ -82,50 +69,12 @@ resource "aws_iam_policy" "cognito_es_policy" {
   description = "${var.PREFIX}-${var.ENV}-COGNITO-ACCESS-ES-POLICY"
   policy = data.aws_iam_policy_document.cognito_es_policy.json
 
-//   policy = <<EOF
-// {
-//   "Version": "2012-10-17",
-//   "Statement": [
-//     {
-//             "Effect": "Allow",
-//             "Action": [
-//                 "cognito-idp:DescribeUserPool",
-//                 "cognito-idp:CreateUserPoolClient",
-//                 "cognito-idp:DeleteUserPoolClient",
-//                 "cognito-idp:DescribeUserPoolClient",
-//                 "cognito-idp:AdminInitiateAuth",
-//                 "cognito-idp:AdminUserGlobalSignOut",
-//                 "cognito-idp:ListUserPoolClients",
-//                 "cognito-identity:DescribeIdentityPool",
-//                 "cognito-identity:UpdateIdentityPool",
-//                 "cognito-identity:SetIdentityPoolRoles",
-//                 "cognito-identity:GetIdentityPoolRoles"
-//             ],
-//             "Resource": "*"
-//     }
-//   ]
-// }
-// EOF
 }
 
 
 resource "aws_iam_role" "cognito_es_role" {
   name = "${var.PREFIX}-${var.ENV}-COGNITO-ACCESS-ES-ROLE"
   assume_role_policy = data.aws_iam_policy_document.es_assume_policy.json
-//   assume_role_policy = <<EOF
-// {
-//   "Version": "2012-10-17",
-//   "Statement": [
-//     {
-//       "Effect": "Allow",
-//       "Principal": {
-//         "Service": "es.amazonaws.com"
-//       },
-//       "Action": "sts:AssumeRole"
-//     }
-//   ]
-// }
-// EOF
 
 	tags = merge(
 			var.DEFAULT_TAGS,
@@ -161,19 +110,6 @@ resource "aws_elasticsearch_domain" "es" {
   }
 
   access_policies = data.aws_iam_policy_document.es_access_policy.json
-//   access_policies = <<CONFIG
-// {
-// "Version": "2012-10-17",
-// "Statement": [{
-//     "Effect": "Allow",
-//     "Principal": {
-//         "AWS": "${lookup(var.COGNITO_MAP, "auth_arn")}"
-//     },
-//     "Action": "es:*",
-//     "Resource": "arn:aws:es:${var.AWS_REGION}:${data.aws_caller_identity.current.account_id}:domain/${lower(var.PREFIX)}-${lower(var.ENV)}-elastic-search/*"
-// }]
-// }
-// CONFIG
 
 
   cognito_options {
